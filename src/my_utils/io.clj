@@ -27,3 +27,9 @@
 
 ;; (frm-save (io/file "test.clojure") m)
 ;; (frm-load (io/file "test.clojure"))
+
+(defn parse-number
+  "Reads a number from a string. Returns nil if not a number."
+  [s]
+  (if (re-find #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$" (.trim s))
+    (read-string s)))
