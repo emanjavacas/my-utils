@@ -22,3 +22,31 @@
   "same as map-kv but it updates keys"
   [m f]
   (reduce-kv #(assoc %1 (f %2) %3) {} m))
+
+(defn until
+  "subseq of n first elements before
+  pred returns true"
+  [pred coll]
+  (lazy-seq
+   (when (and (seq coll) (not (pred (first coll))))
+     (cons (first coll)
+           (until pred (rest coll))))))
+
+(defn deep-merge-with
+  "Like merge-with, but merges maps recursively, applying the given fn
+  only when there's a non-map at a particular level."
+  {:added "1.7"}
+  [f & maps]
+  (apply
+    (fn m [& maps]
+      (if (every? map? maps)
+        (apply merge-with m maps)
+        (apply f maps)))
+    maps))
+
+(defn deep-merge
+  "Recursively merges maps. If keys are not maps, the last value wins."
+  [& vals]
+  (if (every? map? vals)
+    (apply merge-with deep-merge vals)
+    (last vals)))
