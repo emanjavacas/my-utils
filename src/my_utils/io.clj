@@ -25,11 +25,13 @@
       :dir (let [fs (.listFiles (io/file in-fn))]
              (flatten (map #(helper (io/reader %)) fs))))))
 
-;; (frm-save (io/file "test.clojure") m)
-;; (frm-load (io/file "test.clojure"))
-
 (defn parse-number
   "Reads a number from a string. Returns nil if not a number."
   [s]
   (if (re-find #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$" (.trim s))
     (read-string s)))
+
+(defn file-names 
+  "return filenames from a dir, optionally filter extensions"
+  ([dir] (map #(str dir (.getName %)) (file-seq (io/file dir))))
+  ([dir ext] (filter #(.endsWith % ext) (file-names dir))))

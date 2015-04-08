@@ -72,3 +72,9 @@
       (cond (= item n) (recur (cons item acc) (rest s))
             (empty? s) acc
             :else (recur acc (rest s))))))
+
+(defn arange
+  "returns a lazy-seq of x (= num-steps) equally distant nums"
+  [start stop num-steps]
+  (let [step (/ (- stop start) num-steps)]
+    (range start stop step)))
