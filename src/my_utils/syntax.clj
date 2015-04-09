@@ -78,3 +78,10 @@
   [start stop num-steps]
   (let [step (/ (- stop start) num-steps)]
     (range start stop step)))
+
+(defn find-idx
+  "find the indices where pred returns true"
+  [pred coll]
+  (map first
+       (filter #(pred (second %))
+               (map-indexed vector coll))))
