@@ -86,11 +86,7 @@
        (filter #(pred (second %))
                (map-indexed vector coll))))
 
-(defn coll-depth
-  "returns the depth of a nested collection"
+(defn invert
+  "invert the order of a coll"
   [coll]
-  (loop [depth 0
-         coll  coll]
-    (if-let [newcoll (some #(when (coll? %) %) coll)]
-      (recur (inc depth) newcoll)
-      depth)))
+  (vec (reduce conj nil (vec coll))))
