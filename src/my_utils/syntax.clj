@@ -85,3 +85,12 @@
   (map first
        (filter #(pred (second %))
                (map-indexed vector coll))))
+
+(defn coll-depth
+  "returns the depth of a nested collection"
+  [coll]
+  (loop [depth 0
+         coll  coll]
+    (if-let [newcoll (some #(when (coll? %) %) coll)]
+      (recur (inc depth) newcoll)
+      depth)))
